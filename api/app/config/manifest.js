@@ -13,7 +13,9 @@ module.exports = {
   ],
   plugins: {
     "./initializers/database":  null,
+    "./models/user":            null,
     "./pods/sessions":          null,
+    "./pods/users":             null,
     "good":                     require('./good')
   }
 }
