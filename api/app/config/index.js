@@ -1,0 +1,1 @@
+exports.manifest = require('./manifest');
