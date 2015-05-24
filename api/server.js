@@ -4,7 +4,7 @@ var Hapi      = require('hapi'),
     AppConfig = require('./app/config');
 
 var glueOptions = {
-  relativeTo: Path.join(__dirname, "/app/pods")
+  relativeTo: Path.join(__dirname, "/app")
 };
 
 Glue.compose(AppConfig.manifest, glueOptions, function(err, server) {

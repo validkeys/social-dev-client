@@ -3,11 +3,17 @@ module.exports = {
     {
       host:   'localhost',
       port:   3000,
-      labels: ['api']
+      labels: ['api'],
+      routes: {
+        cors: {
+          origin: ['*']
+        }
+      }
     }
   ],
   plugins: {
-    "./sessions": null,
-    "good":       require('./good')
+    "./initializers/database":  null,
+    "./pods/sessions":          null,
+    "good":                     require('./good')
   }
 }
