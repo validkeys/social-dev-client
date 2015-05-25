@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "app-root-path": "^1.0.0",
     "bcrypt": "^0.8.3",
     "bluebird": "^2.9.25",
     "boom": "^2.7.2",
@@ -19,7 +20,9 @@
     "joi": "^6.4.2",
     "jsonwebtoken": "^5.0.1",
     "lodash": "^3.9.1",
+    "mrhorse": "^1.1.0",
     "path": "^0.11.14",
+    "pluralize": "^1.1.2",
     "rethinkdb": "^2.0.0-1",
     "thinky": "^2.0.3"
   },

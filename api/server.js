@@ -3,6 +3,10 @@ var Hapi      = require('hapi'),
     Path      = require('path'),
     AppConfig = require('./app/config');
 
+// Globals
+global.reqlib   = require('app-root-path').require;
+
+
 var glueOptions = {
   relativeTo: Path.join(__dirname, "/app")
 };

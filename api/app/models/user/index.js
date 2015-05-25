@@ -45,12 +45,12 @@ User.pre('save', function(next) {
 // Ensure email is unique
 User.pre('save', function(next) {
   var self = this;
-  require('../../utils/models/ensure-unique')("User", "email", self, next);
+  require('../../lib/models/ensure-unique')("User", "email", self, next);
 });
 
 User.pre('save', function(next) {
   var self = this;
-  require('../../utils/models/ensure-unique')("User", "username", self, next);
+  require('../../lib/models/ensure-unique')("User", "username", self, next);
 });
 
 

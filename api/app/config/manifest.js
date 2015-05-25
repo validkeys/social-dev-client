@@ -7,6 +7,9 @@ module.exports = {
       routes: {
         cors: {
           origin: ['*']
+        },
+        plugins: {
+          policies: ['check-for-jwt','fetch-object']
         }
       }
     }
@@ -16,6 +19,7 @@ module.exports = {
     "./models/user":            null,
     "./pods/sessions":          null,
     "./pods/users":             null,
-    "good":                     require('./good')
+    "good":                     require('./good'),
+    "mrhorse":                  require('./mrhorse')
   }
 }
