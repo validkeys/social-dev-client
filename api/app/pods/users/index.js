@@ -24,6 +24,15 @@ exports.register = function(server, options, next) {
         }
       }
     },
+
+    {
+      method: "GET",
+      path:   root + "/{user_id}",
+      config: {
+        handler: Controller.show.bind(Controller)
+      }
+    },
+
     {
       method:   "PUT",
       path:     root + "/{user_id}",

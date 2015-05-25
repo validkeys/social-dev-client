@@ -35,10 +35,9 @@ User.pre('save', function(next) {
 
 // Generate password salt
 User.pre('save', function(next) {
+  // if the record is new save right away
   if (!this.isSaved()) {
     this.password = PasswordService.encrypt(this.password);
-  } else {
-    console.log("Password is: " + this.password);
   }
   next();
 });
