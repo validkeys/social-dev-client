@@ -17,7 +17,7 @@ module.exports = function(tableName, field, instance, next) {
       return item(field).eq(instance[field]).and(item("id").ne(instance.id));
     };
   } else {
-    filter = function(item) {
+    filterFunc = function(item) {
       return item(field).eq(instance[field]);
     }
   }

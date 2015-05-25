@@ -14,6 +14,12 @@ Glue.compose(AppConfig.manifest, glueOptions, function(err, server) {
     process.exit(1);
   }
 
+  server.on('request-internal', function(req, event, tags) {
+    if (tags.error && tags.state) {
+      console.error(event);
+    }
+  });
+
   server.start(function() {
     console.log("Hapi server started at: " + server.info.uri + " on port " + server.info.port);
   });

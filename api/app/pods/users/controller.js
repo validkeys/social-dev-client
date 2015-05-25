@@ -7,7 +7,6 @@ module.exports = {
 
   create: function(req, reply) {
     var user = new User(_.pick(req.payload, this._userParams))
-    user.password = PasswordService.encrypt(user.password);
 
     user
       .save()
@@ -31,17 +30,11 @@ module.exports = {
       .then(function(res) {
         user        = res;
         var payload = _.pick(req.payload, this._userParams);
-
-        // check if the password changed and resalt
-        var password = _.get(req, 'payload.password');
-        if (password && !PasswordService.compare(password, user.password)) {
-          payload.password = PasswordService.encrypt(password);
-        }
-
+        console.log(payload, this._userParams);
         return user.merge(payload).save();
       })
       .then(function(updatedResult) {
-        console.log("User updated!", user.getOldValue());
+        // console.log("User updated!", user.getOldValue());
         reply({user: updatedResult});
       })
       .catch(function(e) {

@@ -3,7 +3,8 @@ var thinky  = require('../../initializers/database').thinky,
     _       = require('lodash'),
     User    = null,
     Boom    = require('boom'),
-    Promise = require('bluebird');
+    Promise = require('bluebird'),
+    PasswordService = require('../../services/password');
 
 User = thinky.createModel('users', {
   id:         type.string(),
@@ -35,16 +36,9 @@ User.pre('save', function(next) {
 // Generate password salt
 User.pre('save', function(next) {
   if (!this.isSaved()) {
-    // generate for sure
-    console.log("Salt password");
+    this.password = PasswordService.encrypt(this.password);
   } else {
-    var old = this.getOldValue();
-    console.log("OLD", old);
-    // var oldValue = this.getOldValue().password;
-    // if (oldValue !== this.password) {
-    //   // salt
-    //   console.log("Old value not eq to new value. Salt!");
-    // }
+    console.log("Password is: " + this.password);
   }
   next();
 });
