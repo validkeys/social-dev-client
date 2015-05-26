@@ -6,15 +6,7 @@ var _               = require('lodash'),
 module.exports = {
 
   show: function(req, reply) {
-    User
-      .get(req.params.user_id)
-      .run()
-      .then(function (user) {
-        reply({user: user});
-      })
-      .catch(function(e) {
-        reply(Boom.wrap(e, 422));
-      });
+    reply({user: req.data.User});
   },
 
   create: function(req, reply) {
@@ -34,26 +26,25 @@ module.exports = {
   // TODO: I shoud only be able to update my own record
   // TODO: user should have to be logged in
   update: function(req, reply) {
-    var user = null,
+
+    var user = req.data.User,
         _this = this;
 
-    User
-      .get(req.params.user_id)
-      .run()
-      .then(function(res) {
-        user        = res;
-        var payload = _.pick(req.payload, _this._userParams);
+    var payload = _.pick(req.payload, _this._userParams);
 
-        if (!PasswordService.compare(payload.password, user.password)) {
-          payload.password = PasswordService.encrypt(payload.password);
-        } else {
-          // the password has not changed
-          // so don't update
-          delete payload.password;
-        }
+    if (payload.password) {
+      if (!PasswordService.compare(payload.password, user.password)) {
+        console.log("HERE?");
+        payload.password = PasswordService.encrypt(payload.password);
+      } else {
+        // the password has not changed so don't update
+        delete payload.password;
+      }
+    }
 
-        return user.merge(payload).save();
-      })
+    user
+      .merge(payload)
+      .save()
       .then(function(updatedResult) {
         reply({user: updatedResult});
       })
