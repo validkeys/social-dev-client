@@ -17,8 +17,10 @@ function camelize(str) {
 }
 
 var fetchObject = function(request, reply, next) {
-  console.log("Fetching Object!");
-  if (request.params.length === 0 || ['GET','PUT','DELETE'].indexOf(request.method.toUpperCase()) === -1 ) {
+
+  console.log("Running fetchObject policy");
+
+  if (!request.params || request.params.length === 0 || ['GET','PUT','DELETE'].indexOf(request.method.toUpperCase()) === -1 ) {
     return next(null, true);
   }
 
@@ -46,7 +48,6 @@ var fetchObject = function(request, reply, next) {
         request.data = request.data || {};
         request.data[modelKey] = record;
       });
-      console.log("Continuing!");
       return next(null, true);
     })
     .catch(function(e) {

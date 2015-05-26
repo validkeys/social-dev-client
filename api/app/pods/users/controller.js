@@ -1,7 +1,6 @@
 var _               = require('lodash'),
     User            = require('../../models/user').User,
-    Boom            = require('boom'),
-    PasswordService = require('../../services/password');
+    Boom            = require('boom');
 
 module.exports = {
 
@@ -27,23 +26,10 @@ module.exports = {
   // TODO: user should have to be logged in
   update: function(req, reply) {
 
-    var user = req.data.User,
-        _this = this;
-
-    var payload = _.pick(req.payload, _this._userParams);
-
-    if (payload.password) {
-      if (!PasswordService.compare(payload.password, user.password)) {
-        console.log("HERE?");
-        payload.password = PasswordService.encrypt(payload.password);
-      } else {
-        // the password has not changed so don't update
-        delete payload.password;
-      }
-    }
+    var user = req.data.User;
 
     user
-      .merge(payload)
+      .merge(req.payload)
       .save()
       .then(function(updatedResult) {
         reply({user: updatedResult});
@@ -53,6 +39,7 @@ module.exports = {
       });
   },
 
+  // Private
 
   _userParams: ['firstName', 'lastName', 'email', 'password', 'username']
 

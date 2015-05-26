@@ -3,7 +3,8 @@ var JwtService = global.reqlib('/app/services/jwt'),
     Boom       = require('boom');
 
 var checkForJwt = function(request, reply, next) {
-
+  console.log("Running CheckForJwt policy");
+  
   var req           = request.raw.req,
 
       // grab the header
@@ -45,5 +46,7 @@ var checkForJwt = function(request, reply, next) {
     next(null, true);
   }
 }
+
+checkForJwt.applyPoint = 'onPreAuth';
 
 module.exports = checkForJwt;
