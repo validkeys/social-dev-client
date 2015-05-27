@@ -6,7 +6,7 @@ var thinky  = require('../../initializers/database').thinky,
     Promise = require('bluebird'),
     PasswordService = require('../../services/password');
 
-User = thinky.createModel('users', {
+var attributes = {
   id:         type.string(),
   firstName:  type.string().min(1),
   lastName:   type.string().min(1),
@@ -15,7 +15,11 @@ User = thinky.createModel('users', {
   password:   type.string().min(4),
   createdAt:  type.date().default(thinky.r.now()),
   updatedAt:  type.date().default(thinky.r.now())
-});
+};
+
+exports.attributes = attributes;
+
+User = thinky.createModel('users', attributes);
 
 // Indeces
 User.ensureIndex("email", function(doc) {
