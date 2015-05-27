@@ -28,6 +28,7 @@
     "thinky": "^2.0.3"
   },
   "devDependencies": {
+    "code": "^1.4.0",
     "lab": "^5.9.0",
     "node-inspector": "^0.10.1"
   }
