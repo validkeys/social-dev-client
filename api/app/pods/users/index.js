@@ -20,6 +20,9 @@ var index = function(server, next) {
     // Routes
 
     server.route([
+
+      // POST ROUTE
+
       {
         method:   "POST",
         path:     root,
@@ -40,6 +43,8 @@ var index = function(server, next) {
         }
       },
 
+      // GET ROUTE
+
       {
         method: "GET",
         path:   root + "/{user_id}",
@@ -49,17 +54,22 @@ var index = function(server, next) {
         }
       },
 
+      // PUT ROUTE
+
       {
         method:   "PUT",
         path:     root + "/{user_id}",
         config:   {
           handler:  Controller.update,
           bind:     Controller,
+          auth:   'token',
           plugins: {
             policies: PolicyService.withDefaults(server, ['checkForPasswordChange'])
           }
         }
       }
+
+      
     ]);
 
     next();

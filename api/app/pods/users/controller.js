@@ -23,7 +23,6 @@ module.exports = {
   },
 
   // TODO: I shoud only be able to update my own record
-  // TODO: user should have to be logged in
   update: function(req, reply) {
 
     var user = req.data.User;
