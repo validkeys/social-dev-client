@@ -33,6 +33,6 @@
     "faker": "^2.1.3",
     "lab": "^5.9.0",
     "node-inspector": "^0.10.1",
-    "factory-girl-rethinkdb": "git+ssh://git@github.com/validkeys/factory-girl-rethinkdb.git#0.0.1"
+    "factory-girl-rethinkdb": "git+ssh://git@github.com/validkeys/factory-girl-rethinkdb.git#0.0.3"
   }
 }
