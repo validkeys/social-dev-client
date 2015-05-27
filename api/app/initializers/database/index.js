@@ -1,4 +1,4 @@
-var dbConfig  = require('../../config').database,
+var dbConfig  = require('../../config').database[process.env.NODE_ENV || 'development'],
     thinky    = require('thinky')(dbConfig),
     r         = thinky.r;
 

@@ -4,6 +4,8 @@ var Lab       = require('lab'),
     reqlib    = require('app-root-path').require,
     AppConfig = reqlib('/app/config');
 
+process.env.NODE_ENV = "test";
+
 global.reqlib   = require('app-root-path').require;
 
 // shortcuts
