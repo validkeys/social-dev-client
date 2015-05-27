@@ -3,6 +3,8 @@ var secret  = process.env.JWTSECRET || "3b9d5e09792872ca3eeb73fdc392c8f62a7d7e4c
 var signOptions   = {};
 var verifyOptions = {};
 
+exports.secret = secret;
+
 exports.sign = function(data) {
   return jwt.sign(data, secret, signOptions);
 };

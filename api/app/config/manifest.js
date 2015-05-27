@@ -9,7 +9,7 @@ module.exports = {
           origin: ['*']
         },
         plugins: {
-          policies: ['check-for-jwt','fetch-object']
+          policies: ['fetch-object']
         }
       }
     }
@@ -17,7 +17,9 @@ module.exports = {
   plugins: {
     "good":                     require('./good'),
     "mrhorse":                  require('./mrhorse'),
+    "hapi-auth-jwt":            null,
     "./initializers/database":  null,
+    './initializers/authentication': null,
     "./models/user":            null,
     "./pods/sessions":          null,
     "./pods/users":             null
