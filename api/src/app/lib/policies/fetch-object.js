@@ -3,20 +3,25 @@
 // it loops through each param in the url and
 // attempts to fetch them
 // it then attaches them to request.data[Model]
-var _           = require('lodash'),
-    Models      = global.reqlib('/src/app/models'),
-    Promise     = require('bluebird'),
-    Pluralize   = require('pluralize');
+import _ from 'lodash';
+import * as Models from '../../models';
+import Promise from 'bluebird';
+import Pluralize from 'pluralize';
+
+// var _           = require('lodash'),
+//     Models      = global.reqlib('/src/app/models'),
+//     Promise     = require('bluebird'),
+//     Pluralize   = require('pluralize');
 
 // Converts from user_id to User
 // from user_story_id to UserStory
 function camelize(str) {
-  return str.split('_id')[0].replace('_',' ').replace(/(?:^|\s)\w/g, function(match){
+  return str.split('_id')[0].replace('_',' ').replace(/(?:^|\s)\w/g, (match) => {
     return match.toUpperCase();
   }).replace(' ','');
 }
 
-var fetchObject = function(request, reply, next) {
+let fetchObject = function(request, reply, next) {
 
   console.log("Running fetchObject policy");
 
@@ -24,11 +29,11 @@ var fetchObject = function(request, reply, next) {
     return next(null, true);
   }
 
-  var promises = {};
+  let promises = {};
 
-  _.each(request.params, function(value, key) {
-    var model = camelize(key),
-        table = Models[model][model];
+  _.each(request.params, (value, key) => {
+    let model = camelize(key),
+        table = Models[model];
 
     if (table) {
       promises[model] = table.get(value).run();
@@ -43,8 +48,8 @@ var fetchObject = function(request, reply, next) {
 
   Promise
     .props(promises)
-    .then(function(results) {
-      _.each(results, function(record, modelKey) {
+    .then((results) => {
+      _.each(results, (record, modelKey) => {
         request.data = request.data || {};
         request.data[modelKey] = record;
       });
@@ -55,4 +60,4 @@ var fetchObject = function(request, reply, next) {
     });
 };
 
-module.exports = fetchObject;
+export default fetchObject;

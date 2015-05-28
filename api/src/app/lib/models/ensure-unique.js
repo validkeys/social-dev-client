@@ -3,21 +3,22 @@
 // if the instance is a created model, it will 
 // ensure that it's not finding it's own record
 
-var Models  = require('../../models'),
-    Promise = require('bluebird');
+import * as Models from '../../models';
+import Promise from 'bluebird';
 
-module.exports = function(tableName, field, instance, next) {
 
-  if (!Models[tableName] || !Models[tableName][tableName]){ return next(new Error(tableName + "not found in models export")); }
-  var model       = Models[tableName][tableName],
+export default (tableName, field, instance, next) => {
+
+  if (!Models[tableName] || !Models[tableName]){ return next(new Error(tableName + "not found in models export")); }
+  let model       = Models[tableName],
       filterFunc  = null;
 
   if (instance.isSaved()) {
-    filterFunc = function(item) {
+    filterFunc = (item) => {
       return item(field).eq(instance[field]).and(item("id").ne(instance.id));
     };
   } else {
-    filterFunc = function(item) {
+    filterFunc = (item) => {
       return item(field).eq(instance[field]);
     }
   }
@@ -25,7 +26,7 @@ module.exports = function(tableName, field, instance, next) {
   model
     .filter(filterFunc)
     .run()
-    .then(function(results) {
+    .then((results) => {
       if (results.length > 0) {
         return next(new Error(field + " is not unique in " + tableName));
       }

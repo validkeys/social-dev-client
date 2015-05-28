@@ -1,11 +1,11 @@
 import { database } from '../../config/';
 import thinky from 'thinky';
 
-let dbConfig  = database[process.env.NODE_ENV || 'development'],
+let dbConfig          = database[process.env.NODE_ENV || 'development'],
     thinkyInstance    = thinky(dbConfig),
-    r         = thinkyInstance.r;
+    r                 = thinkyInstance.r;
 
-exports.register = function(server, options, next) {
+let register = function(server, options, next) {
 
   thinkyInstance._onDbReady.push(function() {
     console.info("Database ("+dbConfig.db+") Is Connected on port: " + dbConfig.port);
@@ -14,9 +14,8 @@ exports.register = function(server, options, next) {
 
 }
 
-exports.register.attributes = {
+register.attributes = {
   pkg: require('./package.json')
 }
 
-export thinky;
-export r;
+export { thinkyInstance as thinky, r, register };

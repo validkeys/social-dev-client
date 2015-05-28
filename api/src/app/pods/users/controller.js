@@ -1,45 +1,47 @@
-var _               = require('lodash'),
-    User            = require('../../models/user').User,
-    Boom            = require('boom');
+import _ from 'lodash';
+import { User } from '../../models';
+import Boom from 'boom';
 
-module.exports = {
+export default {
 
-  show: function(req, reply) {
+  show: (req, reply) => {
+    // console.log(userParams);
     reply({user: req.data.User});
   },
 
-  create: function(req, reply) {
-    var user = new User(_.pick(req.payload, this._userParams))
+  create: (req, reply) => {
+    console.log("THIS", this);
+    let user = new User(_.pick(req.payload, this._userParams))
 
     user
       .save()
-      .then(function(res) {
+      .then((res) => {
         reply({user: res});
       })
-      .catch(function(err) {
+      .catch((err) => {
         console.log(err);
         reply(Boom.wrap(err, 422));
       });
   },
 
   // TODO: I shoud only be able to update my own record
-  update: function(req, reply) {
+  update: (req, reply) => {
 
-    var user = req.data.User;
+    let user = req.data.User;
 
     user
       .merge(req.payload)
       .save()
-      .then(function(updatedResult) {
+      .then((updatedResult) => {
         reply({user: updatedResult});
       })
-      .catch(function(e) {
+      .catch((e) => {
         reply(Boom.wrap(e, 422));
       });
   },
 
   // Private
 
-  _userParams: ['firstName', 'lastName', 'email', 'password', 'username']
+  userParams: ['firstName', 'lastName', 'email', 'password', 'username']
 
 }

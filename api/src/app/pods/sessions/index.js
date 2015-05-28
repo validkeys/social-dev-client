@@ -1,9 +1,9 @@
-var Controller = require('./controller'),
-    Joi        = require('joi');
+import Controller from './controller';
+import Joi from 'joi';
 
-exports.register = function(server, options, next) {
+let register = (server, options, next) => {
 
-  var root = "/sessions"
+  let root = "/sessions"
 
   server.route([
     {
@@ -26,6 +26,8 @@ exports.register = function(server, options, next) {
   next();
 };
 
-exports.register.attributes = {
+register.attributes = {
   pkg: require('./package.json')
 };
+
+export { register };

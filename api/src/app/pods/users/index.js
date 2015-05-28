@@ -1,8 +1,8 @@
-var Controller    = require('./controller'),
-    Joi           = require('joi'),
-    PolicyService = global.reqlib('/src/app/services/policies');
+import Controller from './controller';
+import Joi from 'joi';
+import PolicyService from '../../services/policies';
 
-var index = function(server, next) {
+let index = (server, next) => {
 
   // Load Policies
   server.plugins.mrhorse.loadPolicies(server, {
@@ -15,7 +15,7 @@ var index = function(server, next) {
       return next(err);
     }
 
-    var root = "/users";
+    let root = "/users";
 
     // Routes
 
@@ -76,9 +76,11 @@ var index = function(server, next) {
   });
 }
 
-exports.register = function(server, options, next) {
+let register = (server, options, next) => {
   server.after(index, 'mrhorse');
   next();
 };
 
-exports.register.attributes = { pkg: require('./package') };
+register.attributes = { pkg: require('./package') };
+
+export { register };
