@@ -4,14 +4,12 @@ import Boom from 'boom';
 
 export default {
 
-  show: (req, reply) => {
-    // console.log(userParams);
+  show: function(req, reply) {
     reply({user: req.data.User});
   },
 
-  create: (req, reply) => {
-    console.log("THIS", this);
-    let user = new User(_.pick(req.payload, this._userParams))
+  create: function(req, reply) {
+    let user = new User(_.pick(req.payload, this._userParams));
 
     user
       .save()
@@ -25,7 +23,7 @@ export default {
   },
 
   // TODO: I shoud only be able to update my own record
-  update: (req, reply) => {
+  update: function(req, reply) {
 
     let user = req.data.User;
 
@@ -42,6 +40,6 @@ export default {
 
   // Private
 
-  userParams: ['firstName', 'lastName', 'email', 'password', 'username']
+  _userParams: ['firstName', 'lastName', 'email', 'password', 'username']
 
 }

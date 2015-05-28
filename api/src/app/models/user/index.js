@@ -2,10 +2,10 @@ import { thinky } from '../../initializers/database';
 import _ from 'lodash';
 import Boom from 'boom';
 import Promise from 'bluebird';
-import PasswordService from '../../services/password';
+import * as PasswordService from '../../services/password';
 
-let type    = thinky.type,
-    User    = null;
+let type    = thinky.type;
+var User    = null;
 
 const attributes = {
   id:         type.string(),
@@ -31,13 +31,13 @@ User.ensureIndex("username", function(doc) {
 
 // Hooks
 // update the updatedAt
-User.pre('save', (next) => {
+User.pre('save', function(next) {
   this.updatedAt = thinky.r.now();
   next();
 });
 
 // Generate password salt
-User.pre('save', (next) => {
+User.pre('save', function(next) {
   // if the record is new save right away
   if (!this.isSaved()) {
     this.password = PasswordService.encrypt(this.password);
@@ -46,23 +46,23 @@ User.pre('save', (next) => {
 });
 
 // Ensure email is unique
-User.pre('save', (next) => {
+User.pre('save', function(next) {
   var self = this;
   require('../../lib/models/ensure-unique')("User", "email", self, next);
 });
 
-User.pre('save', (next) => {
+User.pre('save', function(next) {
   var self = this;
   require('../../lib/models/ensure-unique')("User", "username", self, next);
 });
 
 
 // Instance Methods
-User.define('jwtAttributes', () => {
+User.define('jwtAttributes', function() {
   return _.pick(this, ['id','firstName','lastName','username','email','createdAt']);
 });
 
-let register = (server, options, next) => {
+let register = function(server, options, next) {
 
   User.addListener('ready', (model) => {
     console.log("Table: " + model.getTableName() + " is ready");

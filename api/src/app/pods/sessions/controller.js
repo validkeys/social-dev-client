@@ -1,11 +1,11 @@
 import { User } from '../../models/user';
-import PasswordService from '../../services/password';
+import * as PasswordService from '../../services/password';
 import Boom from 'boom';
 import JwtService from '../../services/jwt'
 
 export default {
 
-  token: (req, reply) => {
+  token: function(req, reply) {
     // console.log({ email: req.payload.email, password: PasswordService.encrypt(req.payload.password) });
     User
       .filter({ email: req.payload.email, password: PasswordService.encrypt(req.payload.password) })
