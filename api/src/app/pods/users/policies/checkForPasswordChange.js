@@ -1,6 +1,6 @@
-var PasswordService = global.reqlib('/src/app/services/password');
+import PasswordService from '../../../services/password';
 
-var policy = function(request, reply, next) {
+let policy = function(request, reply, next) {
 
   console.log("Running checkForPasswordChange policy");
 
@@ -9,7 +9,7 @@ var policy = function(request, reply, next) {
     return next(null, true);
   }
 
-  var password = request.payload.password;
+  let password = request.payload.password;
 
   // check for password
   if (password) {
@@ -25,4 +25,4 @@ var policy = function(request, reply, next) {
   next(null, true);
 }
 
-module.exports = policy;
+export default policy;

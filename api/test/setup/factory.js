@@ -1,9 +1,14 @@
-var Factory = require('factory-girl');
+import Factory from 'factory-girl';
+import RethinkAdapter from 'factory-girl-rethinkdb';
+import {
+  User as UserFactory
+} from '../factories';
 
-var newFactory    = new Factory.Factory();
-var adapter       = require('factory-girl-rethinkdb');
-newFactory.setAdapter(adapter);
+import _ from 'lodash';
 
-require('../factories/user')(newFactory);
+let baseFactory = new Factory.Factory();
+baseFactory.setAdapter(RethinkAdapter);
 
-module.exports = newFactory;
+UserFactory(baseFactory);
+
+export default baseFactory;

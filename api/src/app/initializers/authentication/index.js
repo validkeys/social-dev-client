@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { User } from '../../models/user';
 import Boom from 'boom';
-import JwtService from '../../services/jwt';
+import * as JwtService from '../../services/jwt';
 
 const privateKey = JwtService.secret;
 

@@ -1,7 +1,7 @@
 import { User } from '../../models/user';
 import * as PasswordService from '../../services/password';
 import Boom from 'boom';
-import JwtService from '../../services/jwt'
+import * as JwtService from '../../services/jwt';
 
 export default {
 

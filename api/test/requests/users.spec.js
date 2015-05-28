@@ -1,18 +1,25 @@
-var Setup     = require(require('app-root-path').resolve('/test/setup'));
+import {
+  BaseFactory as Factory
+} from '../setup';
+
+import Lab from 'lab';
+import Code from 'code';
+import Glue from 'glue';
+import * as AppConfig from '../../src/app/config';
     
 // shortcuts
-var lab     = exports.lab = Lab.script(),
+var lab     = Lab.script(),
 expect      = Code.expect,
 beforeEach  = lab.beforeEach,
 before      = lab.before,
 after       = lab.after,
 afterEach   = lab.afterEach;
 
-var glueOptions = {
-  relativeTo: require('app-root-path').resolve('/app')
+let glueOptions = {
+  relativeTo: require('app-root-path').resolve('/src/app')
 };
 
-var server = null,
+let server = null,
     user   = null;
 
 lab.experiment('Users', function() {
@@ -33,8 +40,6 @@ lab.experiment('Users', function() {
       user = newUser;
       done();
     });
-    // user = new User({firstName: "Test", lastName: "Last", email: "ts@t.com", username: "asdf", password: "password"});
-    // user.save().then(function(){ done(); });
   });
 
   afterEach(function( done ) {
@@ -46,10 +51,10 @@ lab.experiment('Users', function() {
   });
 
   lab.experiment('(GET) retrieving a user', function() {
-    var response;
+    let response;
 
     lab.test('user get endpoint works', function(done) {
-      var options = { method: "GET", url: "/users/" + user.id };
+      let options = { method: "GET", url: "/users/" + user.id };
       server.inject(options, function(response) {
         expect(response.statusCode).to.equal(200);
         expect("user" in response.result);
@@ -58,7 +63,7 @@ lab.experiment('Users', function() {
     });
 
     lab.test('the result should not include the user password', function(done) {
-      var options = { method: "GET", url: "/users/" + user.id };
+      let options = { method: "GET", url: "/users/" + user.id };
       server.inject(options, function(response) {
         expect(response.result.user.password).to.equal(undefined);
         done();
@@ -69,3 +74,5 @@ lab.experiment('Users', function() {
 
 
 });
+
+export { lab };

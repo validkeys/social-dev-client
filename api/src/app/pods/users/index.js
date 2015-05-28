@@ -1,6 +1,6 @@
 import Controller from './controller';
 import Joi from 'joi';
-import PolicyService from '../../services/policies';
+import * as PolicyService from '../../services/policies';
 
 let index = (server, next) => {
 
