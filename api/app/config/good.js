@@ -4,8 +4,7 @@ module.exports = {
     events: {
       response: '*',
       log:      '*',
-      error:    '*',
-      response: '*'
+      error:    '*'
     }
   }]
 };

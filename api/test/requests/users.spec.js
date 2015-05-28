@@ -1,7 +1,7 @@
 var Setup     = require(require('app-root-path').resolve('/test/setup'));
     
 // shortcuts
-var lab         = exports.lab = Lab.script(),
+var lab     = exports.lab = Lab.script(),
 expect      = Code.expect,
 beforeEach  = lab.beforeEach,
 before      = lab.before,
@@ -45,12 +45,27 @@ lab.experiment('Users', function() {
     });
   });
 
-  lab.test('user get endpoint works', function(done) {
-    var options = { method: "GET", url: "/users/" + user.id };
-    server.inject(options, function(response) {
-      expect(response.statusCode).to.equal(200);
-      done();
+  lab.experiment('(GET) retrieving a user', function() {
+    var response;
+
+    lab.test('user get endpoint works', function(done) {
+      var options = { method: "GET", url: "/users/" + user.id };
+      server.inject(options, function(response) {
+        expect(response.statusCode).to.equal(200);
+        expect("user" in response.result);
+        done();
+      });
     });
+
+    lab.test('the result should not include the user password', function(done) {
+      var options = { method: "GET", url: "/users/" + user.id };
+      server.inject(options, function(response) {
+        expect(response.result.user.password).to.equal(undefined);
+        done();
+      });
+    });
+
   });
+
 
 });
