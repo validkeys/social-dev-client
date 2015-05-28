@@ -1,10 +1,11 @@
-var thinky  = require('../../initializers/database').thinky,
-    type    = thinky.type,
-    _       = require('lodash'),
-    User    = null,
-    Boom    = require('boom'),
-    Promise = require('bluebird'),
-    PasswordService = require('../../services/password');
+import { thinky } from '../../initializers/database';
+import _ from 'lodash';
+import Boom from 'boom';
+import Promise from 'bluebird';
+import PasswordService from '../../services/password';
+
+let type    = thinky.type,
+    User    = null;
 
 var attributes = {
   id:         type.string(),
