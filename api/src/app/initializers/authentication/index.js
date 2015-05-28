@@ -1,7 +1,7 @@
 var jwt         = require('jsonwebtoken'),
-    User        = global.reqlib('/app/models/user').User,
+    User        = global.reqlib('/src/app/models/user').User,
     Boom        = require('boom'),
-    JwtService  = global.reqlib('/app/services/jwt');
+    JwtService  = global.reqlib('/src/app/services/jwt');
 
 var privateKey = JwtService.secret;
 

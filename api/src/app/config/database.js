@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   'development': {
     'host':   'localhost',
     'port':   28015,

@@ -1,6 +1,6 @@
 var Controller    = require('./controller'),
     Joi           = require('joi'),
-    PolicyService = global.reqlib('/app/services/policies');
+    PolicyService = global.reqlib('/src/app/services/policies');
 
 var index = function(server, next) {
 

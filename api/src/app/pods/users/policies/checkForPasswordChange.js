@@ -1,4 +1,4 @@
-var PasswordService = global.reqlib('/app/services/password');
+var PasswordService = global.reqlib('/src/app/services/password');
 
 var policy = function(request, reply, next) {
 

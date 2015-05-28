@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   reporters: [{
     reporter: require('good-console'),
     events: {

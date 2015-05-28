@@ -1,4 +1,7 @@
-module.exports = {
+import good from './good';
+import mrhorse from './mrhorse';
+
+export default {
   connections: [
     {
       host:   'localhost',
@@ -15,8 +18,8 @@ module.exports = {
     }
   ],
   plugins: {
-    "good":                     require('./good'),
-    "mrhorse":                  require('./mrhorse'),
+    "good":                     good,
+    "mrhorse":                  mrhorse,
     "hapi-auth-jwt":            null,
     "./initializers/database":  null,
     './initializers/authentication': null,

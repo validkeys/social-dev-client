@@ -4,7 +4,7 @@
 // attempts to fetch them
 // it then attaches them to request.data[Model]
 var _           = require('lodash'),
-    Models      = global.reqlib('/app/models'),
+    Models      = global.reqlib('/src/app/models'),
     Promise     = require('bluebird'),
     Pluralize   = require('pluralize');
 
