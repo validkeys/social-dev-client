@@ -6,7 +6,9 @@ import UserSerializer from '../../serializers/user';
 export default {
 
   show: function(req, reply) {
-    reply({user: new UserSerializer(req.data.User).serialize()});
+    console.log(req.data.User.constructor.name);
+    // reply(new UserSerializer(req.data.User).serialize());
+    reply(req.data.User);
   },
 
   create: function(req, reply) {

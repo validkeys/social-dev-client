@@ -12,7 +12,7 @@ export default {
           origin: ['*']
         },
         plugins: {
-          policies: ['fetch-object']
+          policies: ['fetch-object','serialize']
         }
       }
     }
