@@ -1,11 +1,12 @@
 import _ from 'lodash';
 import { User } from '../../models';
 import Boom from 'boom';
+import UserSerializer from '../../serializers/user';
 
 export default {
 
   show: function(req, reply) {
-    reply({user: req.data.User});
+    reply({user: new UserSerializer(req.data.User).serialize()});
   },
 
   create: function(req, reply) {

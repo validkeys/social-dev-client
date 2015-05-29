@@ -43,7 +43,6 @@ lab.experiment('Users', function() {
   });
 
   afterEach(function( done ) {
-    console.log("after");
     user.delete().then(function(){
       user = null;
       done();
