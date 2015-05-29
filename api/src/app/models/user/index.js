@@ -5,7 +5,7 @@ import Promise from 'bluebird';
 import * as PasswordService from '../../services/password';
 
 let type    = thinky.type;
-var User    = null;
+let User    = null;
 
 const attributes = {
   id:         type.string(),

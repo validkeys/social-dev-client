@@ -4,7 +4,8 @@ export default {
     events: {
       response: '*',
       log:      '*',
-      error:    '*'
+      error:    '*',
+      ops:      '*'
     }
   }]
 };
