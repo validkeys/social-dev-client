@@ -31,6 +31,8 @@
   },
   "devDependencies": {
     "babel": "^5.1.13",
+    "chai": "^2.3.0",
+    "chai-as-promised": "^5.0.0",
     "code": "^1.4.0",
     "del": "^1.1.1",
     "factory-girl": "^1.5.0",

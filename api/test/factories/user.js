@@ -4,12 +4,14 @@ import Faker from 'faker';
 
 let modelAttributeNames = _.keys(Models.User.attributes);
 
+let usernameCounter = 1;
+
 let define = (factory) => {
   factory.define('user', Models.User, {
     firstName:  Faker.name.firstName(),
     lastName:   Faker.name.lastName(),
     email:      () => Faker.internet.email(),
-    username:   () => Faker.name.firstName(),
+    username:   () => Faker.name.firstName() + usernameCounter++,
     password:   Faker.internet.password()
   });
 };

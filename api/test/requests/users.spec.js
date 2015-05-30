@@ -89,7 +89,6 @@ lab.experiment('Users', function() {
       Factory.build('user', (err, user) => {
         var options = { method: "POST", url: "/users", payload: user };
         server.inject(options, (response) => {
-          console.log(response.result);
           expect(response.statusCode).to.equal(200);
           expect("user" in response.result).to.be.true();
           expect("password" in response.result.user).to.equal(undefined);

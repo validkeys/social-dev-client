@@ -10,11 +10,11 @@ let User    = null;
 
 const attributes = {
   id:         type.string(),
-  firstName:  type.string().min(1),
-  lastName:   type.string().min(1),
-  username:   type.string().alphanum().min(3),
-  email:      type.string().email(),
-  password:   type.string().min(4),
+  firstName:  type.string().min(1).required(),
+  lastName:   type.string().min(1).required(),
+  username:   type.string().alphanum().min(3).required(),
+  email:      type.string().email().required(),
+  password:   type.string().min(4).required(),
   createdAt:  type.date().default(moment.utc().format()),
   updatedAt:  type.date().default(moment.utc().format())
 };
@@ -40,7 +40,7 @@ User.pre('save', function(next) {
 // Generate password salt
 User.pre('save', function(next) {
   // if the record is new save right away
-  if (!this.isSaved()) {
+  if (!this.isSaved() && [undefined,null].indexOf(this.password) === -1) {
     this.password = PasswordService.encrypt(this.password);
   }
   next();

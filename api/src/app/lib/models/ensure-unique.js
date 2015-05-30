@@ -9,6 +9,9 @@ import Promise from 'bluebird';
 
 export default (tableName, field, instance, next) => {
 
+  if ([undefined,null].indexOf(instance[field]) > -1)
+    return next();
+
   if (!Models[tableName] || !Models[tableName]){ return next(new Error(tableName + "not found in models export")); }
   let model       = Models[tableName],
       filterFunc  = null;
