@@ -1,24 +1,15 @@
 import {
-  BaseFactory as Factory
+  BaseFactory as Factory,
+  startServer,
+  stopServer
 } from '../setup';
-
-import Lab from 'lab';
-import Code from 'code';
-import Glue from 'glue';
-import sinon from 'sinon';
-import * as AppConfig from '../../src/app/config';
     
 // shortcuts
 var lab     = Lab.script(),
-expect      = Code.expect,
 beforeEach  = lab.beforeEach,
 before      = lab.before,
 after       = lab.after,
 afterEach   = lab.afterEach;
-
-let glueOptions = {
-  relativeTo: require('app-root-path').resolve('/src/app')
-};
 
 let server = null,
     user   = null,
@@ -27,12 +18,9 @@ let server = null,
 lab.experiment('Users', function() {
   before(function(done) {
     sandbox = sinon.sandbox.create();
-    Glue.compose(AppConfig.manifest, glueOptions, function(err, serverInstance) {
-      if (err){ console.log("Glue Error!", err); }
+    startServer((serverInstance) => {
       server = serverInstance;
-      server.start(function(err) {
-        done();
-      });
+      done();
     });
   });
 
@@ -53,6 +41,10 @@ lab.experiment('Users', function() {
     });
   });
 
+  lab.after((done) => {
+    stopServer(server, done);
+  });
+
   lab.experiment('(GET) retrieving a user', function() {
     let response;
 
@@ -60,7 +52,7 @@ lab.experiment('Users', function() {
       let options = { method: "GET", url: "/users/" + user.id };
       server.inject(options, function(response) {
         expect(response.statusCode).to.equal(200);
-        expect("user" in response.result);
+        expect("user" in response.result).to.be.ok;
         done();
       });
     });
@@ -90,8 +82,8 @@ lab.experiment('Users', function() {
         var options = { method: "POST", url: "/users", payload: user };
         server.inject(options, (response) => {
           expect(response.statusCode).to.equal(200);
-          expect("user" in response.result).to.be.true();
-          expect("password" in response.result.user).to.equal(undefined);
+          expect("user" in response.result).to.be.ok;
+          expect("password" in response.result.user).to.be.false;
           done();
         });
       });

@@ -15,7 +15,7 @@ export default {
     user
       .save()
       .then((res) => {
-        reply({user: res});
+        reply({user: new UserSerializer(res).serialize()});
       })
       .catch((err) => {
         console.log(err);

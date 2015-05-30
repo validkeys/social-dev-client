@@ -29,3 +29,4 @@ global._      = _;
 
 export { default as BaseFactory } from './factory';
 export { startDatabase, stopDatabase } from '../support/initializers/database';
+export { startServer } from '../support/initializers/server';
