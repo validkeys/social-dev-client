@@ -11,7 +11,7 @@ let define = (factory) => {
     firstName:  Faker.name.firstName(),
     lastName:   Faker.name.lastName(),
     email:      () => Faker.internet.email(),
-    username:   () => Faker.name.firstName() + usernameCounter++,
+    username:   () => "username" + usernameCounter++,
     password:   Faker.internet.password()
   });
 };

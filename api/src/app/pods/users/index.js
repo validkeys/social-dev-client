@@ -30,7 +30,10 @@ let index = (server, next) => {
           handler:      Controller.create,
           bind:         Controller,
           description:  "Create a new user.",
-          notes:        "Must pass first, last, email and password"
+          notes:        "Must pass first, last, email and password",
+          plugins: {
+            policies: PolicyService.withDefaults(server, ['canCreateUser'])
+          }
         }
       },
 
@@ -58,7 +61,7 @@ let index = (server, next) => {
           bind:     Controller,
           auth:   'token',
           plugins: {
-            policies: PolicyService.withDefaults(server, ['checkForPasswordChange'])
+            policies: PolicyService.withDefaults(server, ['canUpdateUser', 'checkForPasswordChange'])
           }
         }
       }

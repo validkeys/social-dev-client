@@ -1,14 +1,13 @@
-var repl = require('repl');
-
-var _ = require('lodash');
+var repl  = require('repl');
+var _     = require('lodash');
 
 var models    = require('../src/app/models');
 var AppConfig = require('../src/app/config');
 var thinky    = require('thinky');
 
-var dbConfig = AppConfig.database["development"];
-var thinkyInstance = thinky(dbConfig);
-var r = thinkyInstance.r;
+var dbConfig        = AppConfig.database["development"];
+var thinkyInstance  = thinky(dbConfig);
+var r               = thinkyInstance.r;
 
 thinkyInstance._onDbReady.push(function() {
 

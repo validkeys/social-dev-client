@@ -3,6 +3,9 @@ import {
   startServer,
   stopServer
 } from '../setup';
+
+import * as Helpers from '../support/helpers';
+import moment from 'moment';
     
 // shortcuts
 var lab     = Lab.script(),
@@ -35,15 +38,18 @@ lab.experiment('Users', function() {
 
   afterEach(function( done ) {
     sandbox.restore();
-    user.delete().then(function(){
+    server.plugins.db.r.table('users').delete().run().then(function() {
       user = null;
       done();
-    });
+    })
+    .catch(console.log);
   });
 
-  lab.after((done) => {
-    stopServer(server, done);
-  });
+  // lab.after((done) => {
+  //   stopServer(server, function() {
+  //     done();
+  //   });
+  // });
 
   lab.experiment('(GET) retrieving a user', function() {
     let response;
@@ -77,6 +83,17 @@ lab.experiment('Users', function() {
 
   lab.experiment('(POST) creating a user', function() {
 
+    let currentUser, currentUserHeaders;
+
+    beforeEach((done) => {
+      Factory.create('user', (err, user) => {
+        if (err) console.log(err);
+        currentUser         = user;
+        currentUserHeaders  = Helpers.Auth.headers(currentUser);
+        done();
+      });
+    });
+
     lab.test("I should be able to create a valid user", (done) => {
       Factory.build('user', (err, user) => {
         var options = { method: "POST", url: "/users", payload: user };
@@ -89,36 +106,161 @@ lab.experiment('Users', function() {
       });
     });
 
-    lab.test("I should get a JSON object back of the user (with a user key)", (done) => {
-      expect(1, 'TODO').to.equal(2);
-      done();
-    });
-
     lab.test("I should get a 422 if email is invalid", (done) => {
-      expect(1, 'TODO').to.equal(2);
-      done();
+      Factory.build('user', { email: "asdf" }, (err, user) => {
+        var options = { method: "POST", url: "/users", payload: user };
+        server.inject(options, (response) => {
+          expect(response.statusCode).to.equal(422);
+          expect(response.result.message).to.contain('Value for [email] must be a valid email.');
+          done();
+        });
+      });
     });
 
     lab.test("I should get a 422 if email already exists", (done) => {
-      expect(1, 'TODO').to.equal(2);
-      done();
+      Factory.build('user', { email: user.email }, (err, user) => {
+        var options = { method: "POST", url: "/users", payload: user };
+        server.inject(options, (response) => {
+          expect(response.statusCode).to.equal(422);
+          expect(response.result.message).to.contain('email is not unique in User');
+          done();
+        });
+      });
     });
 
     lab.test("I should get a 422 if username is invalid", (done) => {
-      expect(1, 'TODO').to.equal(2);
-      done();
+      Factory.build('user', { username: "---!" }, (err, user) => {
+        var options = { method: "POST", url: "/users", payload: user };
+        server.inject(options, (response) => {
+          expect(response.statusCode).to.equal(422);
+          expect(response.result.message).to.contain('Value for [username]');
+          done();
+        });
+      });
     });
 
     lab.test("I should get a 422 if username already exists", (done) => {
-      expect(1, 'TODO').to.equal(2);
-      done();
+      Factory.build('user', { username: user.username }, (err, user) => {
+        var options = { method: "POST", url: "/users", payload: user };
+        server.inject(options, (response) => {
+          expect(response.statusCode).to.equal(422);
+          expect(response.result.message).to.contain('username is not unique');
+          done();
+        });
+      });
     });
 
     lab.test("I should get a 500 if I am already logged in (currentUser)", (done) => {
-      expect(1, 'TODO').to.equal(2);
-      done();
+
+      Factory.build('user', (err, user) => {
+        if (err) console.log(err);
+        var options = { method: "POST", url: "/users", payload: user, headers: currentUserHeaders };
+        server.inject(options, (response) => {
+          expect(response.statusCode).to.equal(405);
+          expect(response.result.message).to.contain("new user account as a logged in user");
+          done();
+        });
+      });
     });
 
+
+  });
+
+  lab.experiment('(PUT) updating a user', () => {
+
+    let currentUser, currentUserHeaders;
+
+    beforeEach((done) => {
+      Factory.create('user', (err, user) => {
+        if (err) console.log(err);
+        currentUser         = user;
+        currentUserHeaders  = Helpers.Auth.headers(currentUser);
+        done();
+      });
+    });
+
+    lab.test('It should respond with a 401 if user not logged in', (done) => {
+      let options = { method: "PUT", url: "/users/123" };
+      server.inject(options, (res) => {
+        expect(res.statusCode).to.equal(401);
+        done();
+      });
+    });
+
+    lab.test('It should allow a user through when authenticated', (done) => {
+      let options = { method: "PUT", url: "/users/" + currentUser.id, headers: currentUserHeaders };
+      server.inject(options, (res) => {
+        expect(res.statusCode).to.equal(200);
+        done();
+      });
+    });
+
+    lab.test('It should return a 404 if user is not found', (done) => {
+      let options = { method: "PUT", url: "/users/123321", headers: currentUserHeaders };
+      server.inject(options, (res) => {
+        expect(res.statusCode).to.equal(404);
+        done();
+      });
+    });
+    
+    lab.test('It should throw an error if user is trying to update another user', (done) => {
+      Factory.create('user', (err, user) => {
+        if (err) { console.log(err); }
+        let options = { method: "PUT", url: "/users/" + user.id, headers: currentUserHeaders };
+        server.inject(options, (res) => {
+          expect(res.statusCode).to.equal(403);
+          expect(res.result.message.toLowerCase()).to.contain("you may not update that user");
+          done();
+        });
+      });
+
+    });
+
+    lab.test('It should succeed if user is attempting to update themselves', (done) => {
+      let options = {method: "PUT", url: "/users/" + currentUser.id, payload: {firstName: "Tester1"}, headers: currentUserHeaders};
+      server.inject(options, (res) => {
+        expect(res.statusCode).to.equal(200);
+        done();
+      });
+    });
+
+    lab.test('It should respond with the user model if successfully updated', (done) => {
+      let options = {method: "PUT", url: "/users/" + currentUser.id, payload: {firstName: "Tester1"}, headers: currentUserHeaders};
+      server.inject(options, (res) => {
+        expect("user" in res.result).to.be.true;
+        expect("id" in res.result.user).to.be.true;
+        expect(res.result.user.id).to.equal(currentUser.id);
+        expect(res.result.user.firstName).to.equal("Tester1");
+        expect(res.result.user.lastName).to.equal(currentUser.lastName);
+        expect(res.result.user.email).to.equal(currentUser.email);
+        expect(res.result.user.username).to.equal(currentUser.username);
+        done();
+      });
+    });
+
+    lab.test('It should respond with the user model if not changes were made on the record', (done) => {
+      let options = {method: "PUT", url: "/users/" + currentUser.id, payload: currentUser, headers: currentUserHeaders};
+      server.inject(options, (res) => {
+        expect(res.statusCode).to.equal(200);
+        expect("user" in res.result).to.be.true;
+        expect("password" in res.result).to.be.false;
+        
+        delete res.result.user.updatedAt;
+        _.each(res.result.user, (value, key) => {
+          if (currentUser[key]) {
+            if (key == "createdAt") {
+              let currentCreated = moment(currentUser["createdAt"]),
+                  updatedCreated = moment(value);
+              expect(currentCreated.diff(updatedCreated)).to.equal(0);
+            } else {
+              assert.equal(currentUser[key], value, `The ${key} is not the same`);
+            }
+          }
+        });  
+
+        done();
+      });
+    });
 
   });
 
