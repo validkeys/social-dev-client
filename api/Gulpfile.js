@@ -27,7 +27,7 @@ gulp.task('serve', function() {
 gulp.task('test', function() {
   'use strict';
   return gulp.src(['test/requests/**/*.js','test/unit/**/*.js'])
-    .pipe($.lab('-T node_modules/lab-babel'));
+    .pipe($.lab('-T node_modules/lab-babel -S'));
 });
 
 // Run tests and watch for changes to keep tests running

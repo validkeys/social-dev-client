@@ -16,10 +16,10 @@ thinkyInstance._onDbReady.push(function() {
     prompt: 'app >'
   });
 
-  replServer.context.db = thinkyInstance;
+  replServer.context.db     = thinkyInstance;
   replServer.context.models = models;
-  replServer.context.r = r;
-  replServer.context._ = _;
+  replServer.context.r      = r;
+  replServer.context._      = _;
 
 });
 

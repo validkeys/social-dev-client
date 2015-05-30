@@ -29,7 +29,7 @@ export default {
     let user = req.data.User;
 
     user
-      .merge(req.payload)
+      .merge(_.pick(req.payload, this._userParams))
       .save()
       .then((updatedResult) => {
         reply({user: updatedResult});

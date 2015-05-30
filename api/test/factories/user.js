@@ -8,8 +8,8 @@ let define = (factory) => {
   factory.define('user', Models.User, {
     firstName:  Faker.name.firstName(),
     lastName:   Faker.name.lastName(),
-    email:      Faker.internet.email(),
-    username:   Faker.name.firstName(),
+    email:      () => Faker.internet.email(),
+    username:   () => Faker.name.firstName(),
     password:   Faker.internet.password()
   });
 };

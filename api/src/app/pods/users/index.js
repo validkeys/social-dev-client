@@ -50,7 +50,10 @@ let index = (server, next) => {
         path:   root + "/{user_id}",
         config: {
           handler:  Controller.show,
-          bind:     Controller
+          bind:     Controller,
+          plugins: {
+            policies: PolicyService.withDefaults(server, ['canShowUser'])
+          }
         }
       },
 
