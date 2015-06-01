@@ -48,7 +48,7 @@ class BaseSerialzer {
     if (virtualKeys.length) {
       virtualKeys.forEach((key) => {
         if (this[key] && typeof this[key] === 'function') {
-          dataObject[key] = this[key].call(this);
+          dataObject[key] = this[key].call(this, dataObject);
         }
       });
     }
