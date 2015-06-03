@@ -1,5 +1,3 @@
-<h2 id="title">Welcome to Ember.js</h2>
-{{#if session.isAuthenticated}}
-  <a {{action 'invalidateSession'}}>Logout</a>
-{{/if}}
+<h1>Application Template</h1>
+{{#link-to "auth.login"}}Login{{/link-to}}
 {{outlet}}

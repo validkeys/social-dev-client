@@ -3,6 +3,7 @@
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'client',
+    // podModulePrefix: '/pods',
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
