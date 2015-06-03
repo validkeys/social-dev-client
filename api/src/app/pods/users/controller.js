@@ -10,7 +10,7 @@ export default {
   },
 
   create: function(req, reply) {
-    let user = new User(_.pick(req.payload, this._userParams));
+    let user = new User(_.pick(req.payload.user, this._userParams));
 
     user
       .save()

@@ -2,19 +2,19 @@
 
 <form {{action "doSignup" on="submit"}}>
   <div>
-    {{input type="text" name="firstName" value=firstName placeholder="First Name"}}
+    {{input type="text" name="firstName" value=model.firstName placeholder="First Name"}}
   </div>
   <div>
-    {{input type="text" name="lastName" value=lastName placeholder="Last Name"}}
+    {{input type="text" name="lastName" value=model.lastName placeholder="Last Name"}}
   </div>
   <div>
-    {{input type="text" name="email" value=email placeholder="Email"}}
+    {{input type="text" name="email" value=model.email placeholder="Email"}}
   </div>
   <div>
-    {{input type="text" name="username" value=username placeholder="username"}}
+    {{input type="text" name="username" value=model.username placeholder="username"}}
   </div>
   <div>
-    {{input type="password" name="password" value=password placeholder="password"}}
+    {{input type="password" name="password" value=model.password placeholder="password"}}
   </div>
   <button>Submit!</button>
 </form>

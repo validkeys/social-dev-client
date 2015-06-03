@@ -96,7 +96,7 @@ lab.experiment('Users', function() {
 
     lab.test("I should be able to create a valid user", (done) => {
       Factory.build('user', (err, user) => {
-        var options = { method: "POST", url: "/users", payload: user };
+        var options = { method: "POST", url: "/users", payload: {user: user} };
         server.inject(options, (response) => {
           expect(response.statusCode).to.equal(200);
           expect("user" in response.result).to.be.ok;
@@ -108,7 +108,7 @@ lab.experiment('Users', function() {
 
     lab.test("I should get a 422 if email is invalid", (done) => {
       Factory.build('user', { email: "asdf" }, (err, user) => {
-        var options = { method: "POST", url: "/users", payload: user };
+        var options = { method: "POST", url: "/users", payload: {user: user} };
         server.inject(options, (response) => {
           expect(response.statusCode).to.equal(422);
           expect(response.result.message).to.contain('Value for [email] must be a valid email.');
@@ -119,7 +119,7 @@ lab.experiment('Users', function() {
 
     lab.test("I should get a 422 if email already exists", (done) => {
       Factory.build('user', { email: user.email }, (err, user) => {
-        var options = { method: "POST", url: "/users", payload: user };
+        var options = { method: "POST", url: "/users", payload: {user: user} };
         server.inject(options, (response) => {
           expect(response.statusCode).to.equal(422);
           expect(response.result.message).to.contain('email is not unique in User');
@@ -130,7 +130,7 @@ lab.experiment('Users', function() {
 
     lab.test("I should get a 422 if username is invalid", (done) => {
       Factory.build('user', { username: "---!" }, (err, user) => {
-        var options = { method: "POST", url: "/users", payload: user };
+        var options = { method: "POST", url: "/users", payload: {user: user} };
         server.inject(options, (response) => {
           expect(response.statusCode).to.equal(422);
           expect(response.result.message).to.contain('Value for [username]');
@@ -141,7 +141,7 @@ lab.experiment('Users', function() {
 
     lab.test("I should get a 422 if username already exists", (done) => {
       Factory.build('user', { username: user.username }, (err, user) => {
-        var options = { method: "POST", url: "/users", payload: user };
+        var options = { method: "POST", url: "/users", payload: {user: user} };
         server.inject(options, (response) => {
           expect(response.statusCode).to.equal(422);
           expect(response.result.message).to.contain('username is not unique');
@@ -154,7 +154,7 @@ lab.experiment('Users', function() {
 
       Factory.build('user', (err, user) => {
         if (err) console.log(err);
-        var options = { method: "POST", url: "/users", payload: user, headers: currentUserHeaders };
+        var options = { method: "POST", url: "/users", payload: {user: user}, headers: currentUserHeaders };
         server.inject(options, (response) => {
           expect(response.statusCode).to.equal(405);
           expect(response.result.message).to.contain("new user account as a logged in user");

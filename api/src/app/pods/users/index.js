@@ -31,6 +31,11 @@ let index = (server, next) => {
           bind:         Controller,
           description:  "Create a new user.",
           notes:        "Must pass first, last, email and password",
+          validate: {
+            payload: {
+              user: Joi.object().required()
+            } 
+          },
           plugins: {
             policies: PolicyService.withDefaults(server, ['canCreateUser'])
           }
