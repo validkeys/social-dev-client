@@ -14,14 +14,12 @@ export default Ember.Route.extend({
   actions: {
     doSignup: function() {
 
-      let identification = this.currentModel.get('email'),
-          password = this.currentModel.get('password'),
-          credentials = {
-            identification: identification,
-            password:       password
+      let model           = this.currentModel,
+          credentials     = {
+            identification: model.get('email'),
+            password:       model.get('password')
           };
 
-      var model = this.currentModel;
       model
         .save()
           .then(() => {

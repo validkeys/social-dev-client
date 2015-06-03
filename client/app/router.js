@@ -6,8 +6,14 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('login', { path: '/login' });
-  this.route('signup', { path: '/signup' });
+  // AUTH
+  this.route('login',   { path: '/login' });
+  this.route('signup',  { path: '/signup' });
+  this.route('splash',  { path: '/splash' })
+
+  // Index Route will be the user's feed
+  // If they aren't logged in, take them to "splash" -> an logged out homepage
+
 });
 
 export default Router;
