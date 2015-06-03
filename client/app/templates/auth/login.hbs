@@ -1,1 +1,13 @@
 Well login why don't cha!
+
+<form {{action 'authenticate' on="submit"}}>
+  <div>
+  <label for="identification">Email</label>
+  {{input type="text" name="identification" id="identification" value=identification}}
+  </div>
+  <div>
+  <label for="password">Password</label>
+  {{input type="password" name="password" id="password" value=password}}
+  </div>
+  <button type="submit">Login</button>
+</form>
