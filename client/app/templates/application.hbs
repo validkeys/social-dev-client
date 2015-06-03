@@ -1,3 +1,6 @@
-<h1>Application Template</h1>
-{{#link-to "auth.login"}}Login{{/link-to}}
+<h1>Application Template. Hello {{session.currentUser.firstName}}</h1>
+{{#link-to "login"}}Login{{/link-to}}
+{{#link-to "signup"}}signup{{/link-to}}
+<a href="#" {{action 'invalidateSession'}}>Logout</a>
+<h2>User Logged In: {{session.isAuthenticated}}</h2>
 {{outlet}}
