@@ -1,0 +1,57 @@
+$font-family = 'Roboto', sans-serif
+
+// Responsive Breakpoints
+$break-point-large-device     = 1200
+$break-point-medium-device    = 992
+// in a medium device, columns are doubled in some cases
+// so a column width of 0 is 0
+// a one wide column will now be 8 columns
+// list goes from left to right (0 columns, 1 column etc..)
+$medium-device-responsive-columns-map = 0, 8, 8, 2, 2, 3, 3, 3, 4, 4, 5, 5, 6, 7, 7, 7, 8
+$break-point-small-device     = 768
+$small-device-responsive-columns-map = 0, 8, 8, 2, 2, 3, 3, 3, 4, 4, 5, 5, 6, 7, 7, 7, 8
+$break-point-x-small-device   = 480
+$x-small-device-responsive-columns-map = 0, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4,
+$break-point-iphone           = 320
+$iphone-device-responsive-columns-map = 0, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4,
+
+
+// Grid
+$grid-cols    = 16
+$gutter-width = 20px
+
+// Nav
+$main-nav-width   = 100px
+$main-nav-height  = 60px
+$sub-nav-width    = 300px
+$sub-nav-width-tablet = 220px
+$nav-item-height  = 100px
+
+// Colors
+$font-color         = #000
+$light-font-color   = lighten($font-color, 75%)
+$light-bg-color     = #fafafa
+$light-bg-border    = darken($light-bg-color, 10%)
+$dark-bg-color      = #222
+$dark-bg-hover      = lighten($dark-bg-color, 25%)
+$dark-bg-font-color = #fff
+$sidebar-bg         = darken($light-bg-color, 1%)
+$cta-color          = #00AA4F
+$main-nav-bg-color  = #fafafa
+$sub-nav-bg-color   = $light-bg-color
+
+$accent-color       = #f65a2c
+$accent-font-color  = #fff
+
+$notification-error-color   = #bf212c
+$notification-success-color = #099628
+$notification-info-color    = #3d7ef3
+
+
+// Sidebar Colors
+$documentation-type-color = #28647C
+$code-type-color          = #FC9D27
+$tutorial-type-color      = #D85646
+
+
+$button-padding = 10px 15px

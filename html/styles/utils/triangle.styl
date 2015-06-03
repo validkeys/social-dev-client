@@ -1,0 +1,44 @@
+triangle($direction='top', $width, $height, $bg-color)
+  content:  ''
+  position: absolute
+  display:  block
+  width:    0
+  height:   0
+
+  if $direction is 'top' {
+    top: -($height - 1)
+    left: 50%
+    margin-left: -($width / 2)
+    border: $height solid transparent
+    border-top-width: 0
+    border-left-width: ($width / 2)
+    border-right-width: ($width / 2)
+    border-bottom-color: $bg-color
+  } else if $direction is 'right' {
+    right: -($width)
+    top: 50%
+    margin-top: -($height / 2)
+    border: $width solid transparent
+    border-right-width: 0
+    border-bottom-width: ($height / 2)
+    border-top-width: ($height / 2)
+    border-left-color: $bg-color
+  } else if $direction is 'bottom' {
+    bottom: -($height)
+    left: 50%
+    margin-left: -($width / 2)
+    border: $height solid transparent
+    border-bottom-width: 0
+    border-left-width: ($width / 2)
+    border-right-width: ($width / 2)
+    border-top-color: $bg-color
+  } else if $direction is 'left' {
+    top: 50%
+    left: -($width)
+    margin-top: -($height / 2)
+    border: $width solid transparent
+    border-top-width: ($height / 2)
+    border-left-width: 0
+    border-bottom-width: ($height / 2)
+    border-right-color: $bg-color
+  }

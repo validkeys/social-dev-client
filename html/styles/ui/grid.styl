@@ -1,0 +1,66 @@
+// .grid
+//   border: blue
+//   padding: 5px
+// .row
+//   border: green
+//   padding: 5px
+// .column
+//   border: red
+
+build_column_widths()
+  for num in (1..$grid-cols)
+    &.{num_to_text(num)}.wide
+      width: ((num / $grid-cols) * 100)%
+
+build_column_widths()
+
+.grid
+  width: 100%
+  build_column_widths()
+  
+  &.page
+    max-width:  unit($break-point-large-device, "px")
+    width:      100%
+    margin:     0 auto
+    
+    // example of calling the responsive helper with a min and max width
+    // adding a + will 
+    // +responsive(750, 992)
+    //   width: 650px
+  
+  > .row
+    width: 100%
+    build_column_widths()
+    
+    &:after
+      content: " "
+      display: table
+      clear:   both
+    
+    &.equal.height
+      display: table
+            
+      > .column
+          display: table-cell
+          float:   none
+          vertical-align: top
+          
+      &.v-align-middle
+        > .column
+          vertical-align: middle
+        
+
+    > .column
+        float: left
+        width: ((1 / $grid-cols) * 100)%
+        padding-right: $gutter-width
+        build_column_widths()
+        
+        &.sixteen.wide.column
+          float: none
+        
+        &.right.floated
+          float: right
+        
+        &:last-of-type
+          padding-right: 0

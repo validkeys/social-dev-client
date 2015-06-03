@@ -1,0 +1,10 @@
+responsive(minWidth = null, maxWidth = null)
+  if (minWidth && !maxWidth)
+    @media all and (min-width: unit(minWidth, "px"))
+      {block}
+  else if (minWidth && maxWidth)
+    @media all and (min-width: unit(minWidth, "px")) and (max-width: unit(maxWidth, "px"))
+      {block}
+  else if (!minWidth && maxWidth)
+    @media all and (max-width: unit(maxWidth, "px"))
+      {block}

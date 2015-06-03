@@ -1,0 +1,21 @@
+.btn
+  padding:        $button-padding
+  border:         none
+  text-transform: uppercase
+  font-weight:    bold
+  letter-spacing: .08em
+  background:     $accent-color
+  color:          #fff
+  text-align:     center
+  transition:     background 250ms ease, transform 250ms ease
+  
+  &:disabled
+    opacity: .5
+  
+  &.cta
+    background: $cta-color
+    color:      #fff
+    
+  &:hover
+    transform:      scale(1.1)
+    background:     lighten($accent-color, 5%)

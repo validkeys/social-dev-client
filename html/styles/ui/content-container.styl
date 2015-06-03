@@ -1,0 +1,46 @@
+main
+  &.content-container    
+    min-height: 100%
+
+    .page-content
+      position:       relative
+      padding-top:    $main-nav-height
+      background:     $light-bg-color
+      min-height:     100%
+      height:         100%
+      width:          100%
+      z-index:        0
+      
+      &.with-sub-menu
+        min-height: 100%
+        position:   absolute
+        width:      unquote('calc(100% - '+ $sub-nav-width +')')
+        top:        $main-nav-height
+        left:       $sub-nav-width
+        padding-top: 0px
+    
+.full-page-content
+  padding-left: $main-nav-width
+  
+.padded-container
+  padding: 0 $gutter-width
+
+
+.media-tablet
+  main
+    &.content-container
+      .page-content
+        &.with-sub-menu
+          width:  unquote('calc(100% - '+ $sub-nav-width-tablet +')')
+          left:   $sub-nav-width-tablet
+
+.media-mobile,
+.media-smartphone
+  main
+    &.content-container
+      .page-content
+        background: #eee
+        &.with-sub-menu
+          position: relative
+          width:    100%
+          left:     auto
