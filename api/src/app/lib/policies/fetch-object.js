@@ -7,6 +7,7 @@ import _ from 'lodash';
 import * as Models from '../../models';
 import Promise from 'bluebird';
 import Pluralize from 'pluralize';
+import Boom from 'boom';
 
 // var _           = require('lodash'),
 //     Models      = global.reqlib('/src/app/models'),
@@ -54,6 +55,9 @@ let fetchObject = function(request, reply, next) {
         request.data[modelKey] = record;
       });
       return next(null, true);
+    })
+    .catch(request.server.plugins.db.Errors.DocumentNotFound, function(e) {
+      return next(Boom.create(404, 'Could not find a resource'));
     })
     .catch(function(e) {
       next(e, false);

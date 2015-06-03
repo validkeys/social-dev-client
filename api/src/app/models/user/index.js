@@ -3,19 +3,20 @@ import _ from 'lodash';
 import Boom from 'boom';
 import Promise from 'bluebird';
 import * as PasswordService from '../../services/password';
+import moment from 'moment';
 
 let type    = thinky.type;
 let User    = null;
 
 const attributes = {
   id:         type.string(),
-  firstName:  type.string().min(1),
-  lastName:   type.string().min(1),
-  username:   type.string().alphanum().min(3),
-  email:      type.string().email(),
-  password:   type.string().min(4),
-  createdAt:  type.date().default(thinky.r.now()),
-  updatedAt:  type.date().default(thinky.r.now())
+  firstName:  type.string().min(1).required(),
+  lastName:   type.string().min(1).required(),
+  username:   type.string().alphanum().min(3).required(),
+  email:      type.string().email().required(),
+  password:   type.string().min(4).required(),
+  createdAt:  type.date().default(moment.utc().format()),
+  updatedAt:  type.date().default(moment.utc().format())
 };
 
 User = thinky.createModel('users', attributes);
@@ -32,14 +33,14 @@ User.ensureIndex("username", function(doc) {
 // Hooks
 // update the updatedAt
 User.pre('save', function(next) {
-  this.updatedAt = thinky.r.now();
+  this.updatedAt = moment.utc().format();
   next();
 });
 
 // Generate password salt
 User.pre('save', function(next) {
   // if the record is new save right away
-  if (!this.isSaved()) {
+  if (!this.isSaved() && [undefined,null].indexOf(this.password) === -1) {
     this.password = PasswordService.encrypt(this.password);
   }
   next();

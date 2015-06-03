@@ -15,11 +15,14 @@ export default {
     user
       .save()
       .then((res) => {
-        reply({user: res});
+        reply({user: new UserSerializer(res).serialize()});
       })
       .catch((err) => {
-        console.log(err);
-        reply(Boom.wrap(err, 422));
+        if (err.isBoom) {
+          reply(err);
+        } else {
+          reply(Boom.wrap(err, 422));
+        }
       });
   },
 
@@ -29,10 +32,10 @@ export default {
     let user = req.data.User;
 
     user
-      .merge(req.payload)
+      .merge(_.pick(req.payload, this._userParams))
       .save()
       .then((updatedResult) => {
-        reply({user: updatedResult});
+        reply({user: new UserSerializer(updatedResult).serialize()});
       })
       .catch((e) => {
         reply(Boom.wrap(e, 422));

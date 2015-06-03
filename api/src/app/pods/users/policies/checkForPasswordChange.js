@@ -1,4 +1,4 @@
-import PasswordService from '../../../services/password';
+import * as PasswordService from '../../../services/password';
 
 let policy = function(request, reply, next) {
 

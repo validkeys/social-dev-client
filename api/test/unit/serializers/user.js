@@ -27,7 +27,6 @@ lab.experiment('User Serializer', function() {
   lab.test('returns the right fields', function(done) {
     let serializer = new UserSerializer({id: 1, firstName: "Kyle", lastName: "Davis", password: "HIDDEN"});
     let results = serializer.serialize();
-    console.log(results);
     expect("id" in results).to.be.true();
     expect("firstName" in results).to.be.true();
     expect("lastName" in results).to.be.true();

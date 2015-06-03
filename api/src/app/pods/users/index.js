@@ -31,14 +31,8 @@ let index = (server, next) => {
           bind:         Controller,
           description:  "Create a new user.",
           notes:        "Must pass first, last, email and password",
-          validate:     {
-            payload: {
-              firstName: Joi.string().required(),
-              lastName:  Joi.string().required(),
-              email:     Joi.string().email().required(),
-              password:  Joi.string().min(4).required(),
-              username:  Joi.string().min(4).required()
-            }
+          plugins: {
+            policies: PolicyService.withDefaults(server, ['canCreateUser'])
           }
         }
       },
@@ -50,7 +44,10 @@ let index = (server, next) => {
         path:   root + "/{user_id}",
         config: {
           handler:  Controller.show,
-          bind:     Controller
+          bind:     Controller,
+          plugins: {
+            policies: PolicyService.withDefaults(server, ['canShowUser'])
+          }
         }
       },
 
@@ -64,7 +61,7 @@ let index = (server, next) => {
           bind:     Controller,
           auth:   'token',
           plugins: {
-            policies: PolicyService.withDefaults(server, ['checkForPasswordChange'])
+            policies: PolicyService.withDefaults(server, ['canUpdateUser', 'checkForPasswordChange'])
           }
         }
       }

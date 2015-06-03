@@ -12,7 +12,7 @@ let startDatabase = function(next) {
 
   thinkyInstance._onDbReady.push(function() {
     console.info("Database ("+dbConfig.db+") Is Connected on port: " + dbConfig.port);
-    next();
+    next(thinkyInstance, r);
   });
 
 };
