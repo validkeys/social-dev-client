@@ -65,6 +65,11 @@ let index = (server, next) => {
           handler:  Controller.update,
           bind:     Controller,
           auth:   'token',
+          validate: {
+            payload: {
+              user: Joi.object().required()
+            } 
+          },
           plugins: {
             policies: PolicyService.withDefaults(server, ['canUpdateUser', 'checkForPasswordChange'])
           }

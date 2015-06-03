@@ -32,7 +32,7 @@ export default {
     let user = req.data.User;
 
     user
-      .merge(_.pick(req.payload, this._userParams))
+      .merge(_.pick(req.payload.user, this._userParams))
       .save()
       .then((updatedResult) => {
         reply({user: new UserSerializer(updatedResult).serialize()});

@@ -188,7 +188,7 @@ lab.experiment('Users', function() {
     });
 
     lab.test('It should allow a user through when authenticated', (done) => {
-      let options = { method: "PUT", url: "/users/" + currentUser.id, headers: currentUserHeaders };
+      let options = { method: "PUT", url: "/users/" + currentUser.id, headers: currentUserHeaders, payload: {user: {}} };
       server.inject(options, (res) => {
         expect(res.statusCode).to.equal(200);
         done();
@@ -196,7 +196,7 @@ lab.experiment('Users', function() {
     });
 
     lab.test('It should return a 404 if user is not found', (done) => {
-      let options = { method: "PUT", url: "/users/123321", headers: currentUserHeaders };
+      let options = { method: "PUT", url: "/users/123321", headers: currentUserHeaders, payload: {user: {}} };
       server.inject(options, (res) => {
         expect(res.statusCode).to.equal(404);
         done();
@@ -206,7 +206,7 @@ lab.experiment('Users', function() {
     lab.test('It should throw an error if user is trying to update another user', (done) => {
       Factory.create('user', (err, user) => {
         if (err) { console.log(err); }
-        let options = { method: "PUT", url: "/users/" + user.id, headers: currentUserHeaders };
+        let options = { method: "PUT", url: "/users/" + user.id, headers: currentUserHeaders, payload: { user: {}} };
         server.inject(options, (res) => {
           expect(res.statusCode).to.equal(403);
           expect(res.result.message.toLowerCase()).to.contain("you may not update that user");
@@ -217,7 +217,7 @@ lab.experiment('Users', function() {
     });
 
     lab.test('It should succeed if user is attempting to update themselves', (done) => {
-      let options = {method: "PUT", url: "/users/" + currentUser.id, payload: {firstName: "Tester1"}, headers: currentUserHeaders};
+      let options = {method: "PUT", url: "/users/" + currentUser.id, payload: {user: {firstName: "Tester1"}}, headers: currentUserHeaders};
       server.inject(options, (res) => {
         expect(res.statusCode).to.equal(200);
         done();
@@ -225,7 +225,7 @@ lab.experiment('Users', function() {
     });
 
     lab.test('It should respond with the user model if successfully updated', (done) => {
-      let options = {method: "PUT", url: "/users/" + currentUser.id, payload: {firstName: "Tester1"}, headers: currentUserHeaders};
+      let options = {method: "PUT", url: "/users/" + currentUser.id, payload: {user: {firstName: "Tester1"}}, headers: currentUserHeaders};
       server.inject(options, (res) => {
         expect("user" in res.result).to.be.true;
         expect("id" in res.result.user).to.be.true;
@@ -239,7 +239,7 @@ lab.experiment('Users', function() {
     });
 
     lab.test('It should respond with the user model if not changes were made on the record', (done) => {
-      let options = {method: "PUT", url: "/users/" + currentUser.id, payload: currentUser, headers: currentUserHeaders};
+      let options = {method: "PUT", url: "/users/" + currentUser.id, payload: {user: currentUser}, headers: currentUserHeaders};
       server.inject(options, (res) => {
         expect(res.statusCode).to.equal(200);
         expect("user" in res.result).to.be.true;
