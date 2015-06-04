@@ -23,35 +23,37 @@ lab.experiment('Users', function() {
   before(function(done) {
     sandbox = sinon.sandbox.create();
     startServer((serverInstance) => {
+      console.log("Got server instance");
       server = serverInstance;
       done();
     });
   });
 
-  beforeEach(function( done ) {
-    // create a new user
-    Factory.create('user', function(err, newUser) {
-      if (err) { console.log(err); }
-      user = newUser;
-      done();
-    });
-  });
+  // beforeEach(function( done ) {
+  //   // create a new user
+  //   Factory.create('user', function(err, newUser) {
+  //     if (err) { console.log(err); }
+  //     user = newUser;
+  //     done();
+  //   });
+  // });
 
-  afterEach(function( done ) {
-    sandbox.restore();
-    server.plugins.db.r.table('users').delete().run().then(function() {
-      user = null;
-      done();
-    })
-    .catch(console.log);
-  });
+  // afterEach(function( done ) {
+  //   sandbox.restore();
+  //   server.plugins.db.r.table('users').delete().run().then(function() {
+  //     user = null;
+  //     done();
+  //   })
+  //   .catch(console.log);
+  // });
 
-  after(function(done) {
-    stopServer(server, function() {
-      console.log("SERVER STOPPED!");
-      done();
-    });
-  });
+  // after(function(done) {
+  //   stopServer(server, function() {
+  //     console.log("SERVER STOPPED!");
+  //     server = null;
+  //     done();
+  //   });
+  // });
 
   // lab.after((done) => {
   //   stopServer(server, function() {

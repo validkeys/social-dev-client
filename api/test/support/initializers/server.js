@@ -9,10 +9,16 @@ let glueOptions = {
 };
 
 let startServer = function(next) {
+  console.log("startServer")
   Glue.compose(AppConfig.manifest, glueOptions, function(err, serverInstance) {
     if (err){ console.log("Glue Error!", err); return next(err); }
     server = serverInstance;
+
     server.start(function(err) {
+      if (err){ 
+        console.log(err);
+        return next(err); 
+      }
       next(server);
     });
   });
