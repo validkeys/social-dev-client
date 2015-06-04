@@ -1,5 +1,12 @@
 {
   "predef": [
+    "authenticateSession",
+    "invalidateSession",
+    "currentSession",
+    "expectComponent",
+    "clickComponent",
+    "expectElement",
+    "expectNoElement",
     "document",
     "window",
     "location",

@@ -29,7 +29,7 @@ export default Ember.Route.extend({
           .catch(function(e) {
             alert("ERROR!");
             console.log(e);
-          })
+          });
     }
   }
 
