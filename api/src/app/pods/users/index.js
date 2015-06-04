@@ -21,6 +21,21 @@ let index = (server, next) => {
 
     server.route([
 
+      // INDEX ROUTE
+      {
+        method: "GET",
+        path:   root,
+        config: {
+          handler: Controller.index,
+          bind:    Controller,
+          validate: {
+            query: {
+              username: Joi.string().alphanum().min(3).optional()
+            }
+          }
+        }
+      },
+
       // POST ROUTE
 
       {

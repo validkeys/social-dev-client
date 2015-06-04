@@ -5,6 +5,21 @@ import UserSerializer from '../../serializers/user';
 
 export default {
 
+  index: function(req, reply) {
+    let params = req.query;
+
+    if (_.isEmpty(params))
+      return reply(Boom.forbidden(403, 'You must pass parameters'));
+
+    User
+      .filter(params)
+      .run()
+      .then((res) => {
+        reply({users: new UserSerializer(res).serialize()})
+      })
+
+  },
+
   show: function(req, reply) {
     reply({user: new UserSerializer(req.data.User).serialize()});
   },

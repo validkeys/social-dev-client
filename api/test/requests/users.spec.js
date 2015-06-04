@@ -19,6 +19,7 @@ let server = null,
     sandbox = null;
 
 lab.experiment('Users', function() {
+
   before(function(done) {
     sandbox = sinon.sandbox.create();
     startServer((serverInstance) => {
@@ -43,6 +44,13 @@ lab.experiment('Users', function() {
       done();
     })
     .catch(console.log);
+  });
+
+  after(function(done) {
+    stopServer(server, function() {
+      console.log("SERVER STOPPED!");
+      done();
+    });
   });
 
   // lab.after((done) => {
@@ -263,7 +271,37 @@ lab.experiment('Users', function() {
     });
 
   });
+  
+  lab.experiment('(GET) listing users', () => {
 
+
+    lab.test('I should get a 403 when requesting the users endpoint', function(done) {
+      let options = { method: "GET", url: "/users" }; 
+      server.inject(options, (response) => {
+        expect(response.statusCode).to.equal(403);
+        done();
+      });
+    });
+
+    lab.test('If I pass an invalid username, i should get an error', function(done) {
+      let options = { method: "GET", url: "/users?username=1" }; 
+      server.inject(options, (response) => {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+
+    lab.test('If the username is valid, I should receive an array of 1', function(done) {
+      let options = { method: "GET", url: "/users?username=" + user.username };
+      server.inject(options, (response) => {
+        expect(response.statusCode).to.equal(200);
+        expect("users" in response.result);
+        expect(response.result.users.length).to.equal(1);
+        done();
+      });
+    });
+
+  });
 
 });
 

@@ -24,7 +24,9 @@ export default {
     "./initializers/database":  null,
     './initializers/authentication': null,
     "./models/user":            null,
+    "./models/post":            null,
     "./pods/sessions":          null,
-    "./pods/users":             null
+    "./pods/users":             null,
+    "./pods/posts":             null
   }
 }
