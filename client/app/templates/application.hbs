@@ -1,4 +1,7 @@
-<h1>Application Template. Hello {{session.currentUser.firstName}}</h1>
+{{#if session.isAuthenticated}}
 <a href="#" {{action 'invalidateSession'}}>Logout</a>
-<h2>User Logged In: {{session.isAuthenticated}}</h2>
+
+{{content-publisher}}
+
+{{/if}}
 {{outlet}}

@@ -5,6 +5,8 @@
     "currentSession",
     "expectComponent",
     "clickComponent",
+    "login",
+    "mockLoginSuccess",
     "expectElement",
     "expectNoElement",
     "document",

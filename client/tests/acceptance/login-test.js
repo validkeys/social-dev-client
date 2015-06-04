@@ -21,6 +21,21 @@ test('visiting /login', function(assert) {
   visit('/login');
 
   andThen(function() {
-    assert.equal(currentURL(), '/login');
+    assert.equal(currentPath(), 'login');
   });
+});
+
+test('i should be redirected to index after logging in', function(assert) {
+
+  mockLoginSuccess();
+
+  visit('/login')
+    .then(() => {
+      fillIn('#identification', 'some@email.com');
+      fillIn('#password', 'password');
+      click('#login-submit-btn');
+    })
+    .then(() => {
+      assert.equal(currentPath(), 'index');
+    })
 });

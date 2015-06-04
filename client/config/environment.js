@@ -24,7 +24,8 @@ module.exports = function(environment) {
     authorizer:               'simple-auth-authorizer:token',
     store:                    'simple-auth-session-store:local-storage',
     session:                  'session:custom',
-    routeAfterAuthentication: '/'
+    routeAfterAuthentication: 'index',
+    authenticationRoute:      '/splash'
   }
 
   ENV['simple-auth-token'] = {

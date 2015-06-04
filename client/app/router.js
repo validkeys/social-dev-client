@@ -13,6 +13,8 @@ Router.map(function() {
 
   // Index Route will be the user's feed
   // If they aren't logged in, take them to "splash" -> an logged out homepage
+  this.route('user', { path: "/:username" }, function() {
+  });
 
 });
 
