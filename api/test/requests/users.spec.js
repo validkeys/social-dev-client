@@ -1,7 +1,6 @@
 import {
   BaseFactory as Factory,
-  startServer,
-  stopServer
+  startApp
 } from '../setup';
 
 import * as Helpers from '../support/helpers';
@@ -20,32 +19,37 @@ let server = null,
 
 lab.experiment('Users', function() {
 
-  before(function(done) {
+  before((done) => {
     sandbox = sinon.sandbox.create();
-    startServer((serverInstance) => {
-      console.log("Got server instance");
-      server = serverInstance;
+    startApp(function(err, res) {
+      if (err) {
+        console.log("Startup Error", err);
+        process.exit(1);
+      } else {
+        console.log("Harness started successfully");
+      }
+      server = res.server;
       done();
     });
   });
 
-  // beforeEach(function( done ) {
-  //   // create a new user
-  //   Factory.create('user', function(err, newUser) {
-  //     if (err) { console.log(err); }
-  //     user = newUser;
-  //     done();
-  //   });
-  // });
+  beforeEach(function( done ) {
+    // create a new user
+    Factory.create('user', function(err, newUser) {
+      if (err) { console.log(err); }
+      user = newUser;
+      done();
+    });
+  });
 
-  // afterEach(function( done ) {
-  //   sandbox.restore();
-  //   server.plugins.db.r.table('users').delete().run().then(function() {
-  //     user = null;
-  //     done();
-  //   })
-  //   .catch(console.log);
-  // });
+  afterEach(function( done ) {
+    sandbox.restore();
+    server.plugins.db.r.table('users').delete().run().then(function() {
+      user = null;
+      done();
+    })
+    .catch(console.log);
+  });
 
   // after(function(done) {
   //   stopServer(server, function() {
@@ -55,11 +59,6 @@ lab.experiment('Users', function() {
   //   });
   // });
 
-  // lab.after((done) => {
-  //   stopServer(server, function() {
-  //     done();
-  //   });
-  // });
 
   lab.experiment('(GET) retrieving a user', function() {
     let response;
@@ -278,6 +277,7 @@ lab.experiment('Users', function() {
 
 
     lab.test('I should get a 403 when requesting the users endpoint', function(done) {
+      console.log("Running test");
       let options = { method: "GET", url: "/users" }; 
       server.inject(options, (response) => {
         expect(response.statusCode).to.equal(403);

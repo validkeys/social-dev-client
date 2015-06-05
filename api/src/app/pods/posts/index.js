@@ -4,8 +4,21 @@ import * as PolicyService from '../../services/policies';
 
 let index = (server, next) => {
 
-  server.route([]);
+  let root = "/posts";
 
+  server.route([
+
+    // CREATE
+    {
+      method: "POST",
+      path:   root,
+      handler: function(req, reply, next) {
+        reply("HERE");
+      }
+    }
+
+  ]);
+  next();
 };
 
 let register = (server, options, next) => {
