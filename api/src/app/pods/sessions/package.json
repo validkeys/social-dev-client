@@ -1,5 +1,0 @@
-{
-  "name":         "SessionsPod",
-  "version":      "1.0.0",
-  "description":  "Handles generating new JWT sessions for users"
-}

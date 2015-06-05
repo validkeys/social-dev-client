@@ -1,4 +1,0 @@
-{
-  "name":        "AuthenticationInitializer",
-  "description": "Using the hapi-auth-jwt plugin. This initializes the authentication strategy and handles authentication"
-}
